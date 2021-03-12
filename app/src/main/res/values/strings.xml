@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">MVIStarter</string>
+
+    <string name="text_undo">Undo</string>
+    <string name="text_error">Error</string>
+    <string name="text_success">Success</string>
+    <string name="text_ok">OK</string>
+    <string name="text_cancel">Cancel</string>
+    <string name="text_info">Info</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="text_yes">Yes</string>
+
+    <string name="menu_a">Menu A</string>
+    <string name="menu_b">Menu B</string>
+    <string name="menu_c">Menu C</string>
+
+    <string name="message_with_reason">%1$s\n\nReason: %2$s</string>
+</resources>

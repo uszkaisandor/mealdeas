@@ -1,0 +1,51 @@
+package com.uszkai.mealdeas.business.data.cache
+
+import com.uszkai.mealdeas.business.data.cache.CacheResult.*
+import com.uszkai.mealdeas.business.domain.state.*
+
+abstract class CacheResponseHandler<ViewState, Data>(
+    private val response: CacheResult<Data?>,
+    private val stateEvent: StateEvent?
+) {
+
+    suspend fun getResult(): DataState<ViewState>? {
+
+        return when (response) {
+
+            is GenericError -> {
+                DataState.error(
+                    response = Response(
+                        message = SimpleMessage(
+                            messageRes = stateEvent?.errorInfoRes(),
+                            descriptionRes = response.errorMessageRes
+                        ),
+                        uiComponentType = UIComponentType.Dialog,
+                        messageType = MessageType.Error
+                    ),
+                    stateEvent = stateEvent
+                )
+            }
+
+            is Success -> {
+                if (response.value == null) {
+                    DataState.error(
+                        response = Response(
+                            message = SimpleMessage(
+                                messageRes = stateEvent?.errorInfoRes()
+                            ),
+                            uiComponentType = UIComponentType.Dialog,
+                            messageType = MessageType.Error
+                        ),
+                        stateEvent = stateEvent
+                    )
+                } else {
+                    handleSuccess(
+                        resultObj = response.value
+                    )
+                }
+            }
+        }
+    }
+
+    abstract suspend fun handleSuccess(resultObj: Data): DataState<ViewState>?
+}
